@@ -1,0 +1,59 @@
+.transparent-card {
+    background-color: rgba(24,25,15,.7);
+}
+
+.gd-bg-info {
+    background: #f7f7f7 !important;
+}
+
+.section {
+    padding: 30px 0;
+    position: relative;
+}
+
+.shop-image {
+    width: 100%;
+    height: 350px;
+}
+
+.shop-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 250px;
+}
+
+.gallery-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.shop-video {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.shop-video video {
+    height: auto;
+    width: 100%;
+}
+
+.counter-section .left {
+    background: rgb(0 0 0 / 96%);
+}
+
+.counter-section .right {
+    background: #1e1e1e;
+}
+
+.calculator .input-group-text {
+    width: 190px;
+    color: #ffffff;
+    background-color: #454d55;
+}
