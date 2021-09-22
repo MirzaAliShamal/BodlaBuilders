@@ -6,7 +6,55 @@
     <!-- Hero Start -->
     <section class="d-table w-100" id="pages" style="background-image: url({{ asset('front/images/banner1.jpg') }});"></section><!--end section-->
     <!-- Hero End -->
+    <div class="modal fade" id="detailModal" tabindex="-1" style="margin-top: 80px" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form action="" class="visitor" method="GET" id="visitorForm">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailModalLabel">User Detail</h5>
+                            <span aria-hidden="true" class="close" style="cursor: pointer" onclick="calc()" data-bs-dismiss="modal" aria-label="Close">&times;</span>
+                    </div>
+                    <div class="modal-body blog-details">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="name"> Name *</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" >
+                                    <span class="name" style="display: none">
+                                        <strong class="text-danger">Name field is required</strong>
+                                    </span>
+                                </div>
+                            </div>
 
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="email"> Email *</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" >
+                                    <span class="email"  style="display: none">
+                                        <strong class="text-danger">Email field is required</strong>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="phone"> Phone *</label>
+                                    <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" >
+                                    <span class="phone"  style="display: none">
+                                        <strong class="text-danger">Phone field is required</strong>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="calc()" data-bs-dismiss="modal"  class="btn btn-secondary">Skip</button>
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-primary save">Save changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <section class="section">
         <div class="container">
             <div class="row justify-content-center">
@@ -31,7 +79,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Project</span>
                                     </div>
-                                    <select name="project" id="project" class="form-control">
+                                    <select name="project" id="project" class="form-control" form="visitorForm">
                                         <option value="" selected>Nothing Selected</option>
                                         @foreach (projects() as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -84,7 +132,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="button" class="btn btn-primary text-center mt-4" onclick="calc()">Calculate</button>
+                                    <button type="button" class="btn btn-primary text-center mt-4 prop" >Calculate</button>
                                 </div>
                             </form>
 
@@ -207,5 +255,50 @@
                 $(".append-results").show();
             }
         }
+        function submit(){
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('calculator') }}",
+                data: $('#visitorForm').serialize(),
+                success: function (response) {
+                    // if (response.Code == 1) {
+                    // }
+                }
+            });
+        }
+
+        $(document).on('click', '.prop',function () {
+            @if (session('user_info'))
+                calc();
+                submit();
+
+            @else
+                $('#detailModal').modal('show');
+
+            @endif
+
+        });
+        $(document).on('click', '.save',function (e) {
+            if( $('#name').val() == '' ){
+                $('.name').show();
+                return false;
+            }
+
+            else if( $('#email').val() == '' ){
+                $('.email').show();
+                return false;
+            }
+            else if( $('#phone').val() == '' ){
+                $('.phone').show();
+                return false;
+            }
+            else{
+                calc();
+                submit();
+            }
+
+
+        });
     </script>
 @endsection

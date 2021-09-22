@@ -18,8 +18,12 @@ require __DIR__.'/auth.php';
 Route::get('/', 'HomeController@home')->name('home');
 Route::get('/latest-news/{slug?}', 'HomeController@news')->name('news');
 Route::get('/latest-blogs/{slug?}', 'HomeController@blogs')->name('blogs');
+Route::get('/visitor', 'HomeController@visitor')->name('visitor.details.save');
 Route::get('/latest-vlogs', 'HomeController@vlogs')->name('vlogs');
 Route::get('/gallery', 'HomeController@gallery')->name('gallery');
+Route::get('/jobs/{slug?}', 'HomeController@jobs')->name('jobs');
+Route::get('/apply', 'HomeController@apply')->name('apply');
+Route::post('/application', 'HomeController@application')->name('application.save');
 Route::get('/bodla-pvt', 'HomeController@bodlaPVT')->name('bodla.pvt');
 Route::get('/bodla-developers', 'HomeController@bodlaDevelopers')->name('bodla.developers');
 Route::get('/calculator', 'HomeController@calculator')->name('calculator');
@@ -44,6 +48,37 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->middleware('auth', '
         Route::get('/edit/{id?}', 'ProjectController@edit')->name('edit');
         Route::post('/save/{id?}', 'ProjectController@save')->name('save');
         Route::get('/delete/{id?}', 'ProjectController@delete')->name('delete');
+    });
+    Route::prefix('jobs')->name('jobs.')->group(function() {
+        Route::get('/list', 'JobController@list')->name('list');
+        Route::get('/add', 'JobController@add')->name('add');
+        Route::post('/save/{id?}', 'JobController@save')->name('save');
+        Route::get('/edit/{id?}', 'JobController@edit')->name('edit');
+        Route::get('/status/{id?}', 'JobController@status')->name('status');
+        Route::get('/delete/{id?}', 'JobController@delete')->name('delete');
+
+    });
+    Route::prefix('application')->name('application.')->group(function() {
+        Route::get('/list', 'ApplicationController@list')->name('list');
+    });
+    Route::prefix('role')->name('role.')->group(function() {
+        Route::get('/list', 'RoleController@list')->name('list');
+        Route::get('/add', 'RoleController@add')->name('add');
+        Route::post('/save/{id?}', 'RoleController@save')->name('save');
+        Route::get('/edit/{id?}', 'RoleController@edit')->name('edit');
+        Route::get('/delete/{id?}', 'RoleController@delete')->name('delete');
+    });
+    Route::prefix('user')->name('user.')->group(function() {
+        Route::get('/list', 'UserController@list')->name('list');
+        Route::get('/add', 'UserController@add')->name('add');
+        Route::post('/save/{id?}', 'UserController@save')->name('save');
+        Route::get('/edit/{id?}', 'UserController@edit')->name('edit');
+        Route::get('/delete/{id?}', 'UserController@delete')->name('delete');
+    });
+    Route::prefix('permissions')->name('permissions.')->group(function() {
+
+        Route::get('manage', 'PermissionController@manage')->name('manage');
+
     });
 
     Route::prefix('project_type')->name('project_type.')->group(function() {

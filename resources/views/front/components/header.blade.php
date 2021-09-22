@@ -33,6 +33,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ route('calculator') }}" class="btn btn-primary">Calculator</a></li>
+                <li><a href="{{ route('jobs') }}" class="sub-menu-item">Careers</a></li>
                 <li><a href="{{ route('contact') }}" class="sub-menu-item">Contact</a></li>
                 @auth
                     <li class="has-submenu parent-menu-item">

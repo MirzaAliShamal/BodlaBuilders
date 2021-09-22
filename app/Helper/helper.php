@@ -6,6 +6,8 @@ use App\Models\Project;
 use App\Models\Blog;
 use App\Models\Vlog;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 function uploadFile($file, $path){
     $name = time().'-'.str_replace(' ', '-', $file->getClientOriginalName());
@@ -44,4 +46,16 @@ function usersCount() {
 }
 function dhaCount() {
     return DhaProperty::count();
+}
+function checkRolePerm($role_id, $permission_id) {
+    $permission = Permission::find($permission_id);
+    $role = Role::find($role_id);
+
+    $check = DB::table('role_has_permissions')->where('role_id', $role_id)->where('permission_id', $permission_id)->first();
+
+    if ($check) {
+        return "checked";
+    } else {
+        return "";
+    }
 }

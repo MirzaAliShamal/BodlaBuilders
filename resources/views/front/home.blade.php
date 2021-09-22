@@ -16,6 +16,55 @@
 @endsection
 
 @section('content')
+<div class="modal fade" id="detailModal" tabindex="-1" style="margin-top: 80px" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <form action="" class="visitor" method="GET" id="visitorForm">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">User Detail</h5>
+                        <span aria-hidden="true" class="close" style="cursor: pointer" data-bs-dismiss="modal" aria-label="Close">&times;</span>
+                </div>
+                <div class="modal-body blog-details">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="name"> Name *</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" >
+                                    <span class="name" style="display: none">
+                                        <strong class="text-danger">Name field is required</strong>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="email"> Email *</label>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" >
+                                <span class="email"  style="display: none">
+                                    <strong class="text-danger">Email field is required</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="phone"> Phone *</label>
+                                <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" >
+                                <span class="phone"  style="display: none">
+                                    <strong class="text-danger">Phone field is required</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit"  class="btn btn-secondary">Skip</button>
+                    <button type="submit" class="btn btn-primary save">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <!-- Hero Start -->
 <section class="bg-half-260 d-table w-100" id="home" style="background-image: url({{ asset('front/images/banner1.jpg') }});">
     <div class="bg-overlay"></div>
@@ -29,12 +78,12 @@
             <div class="col-xl-11 col-12 text-center mt-sm-0 pt-sm-0">
                 <div class="text-center">
                     <div class="card border-0 transparent-card">
-                        <form class="card-body text-start" method="GET" action="">
+                        <form class="card-body text-start" id="propertyForm" method="GET" action="">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="mb-sm-0 mb-3">
                                         <div class="position-relative">
-                                            <input name="sector" id="sector" type="text" class="form-control" placeholder="Sector" required>
+                                            <input name="sector" id="sector" type="text" class="form-control" form="visitorForm" placeholder="Sector" required>
                                         </div>
                                     </div>
                                 </div><!--end col-->
@@ -42,14 +91,14 @@
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="mb-sm-0 mb-3">
                                         <div class="position-relative">
-                                            <input name="plot" id="plot" type="text" class="form-control" placeholder="Plot#" required>
+                                            <input name="plot" id="plot" type="text" class="form-control" form="visitorForm" placeholder="Plot#" required>
                                         </div>
                                     </div>
                                 </div><!--end col-->
 
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="mb-sm-0 mb-3">
-                                        <button type="submit" class="btn btn-primary btn-block w-100">Search</button>
+                                        <button type="button"  class="btn btn-primary btn-block w-100 prop">Search</button>
                                     </div>
                                 </div><!--end col-->
                             </div><!--end row-->
@@ -319,4 +368,40 @@
         </div><!--end row-->
     </div><!--end container-->
 </section><!--end section-->
+@endsection
+
+@section('js')
+    <script>
+        $(document).on('click', '.prop',function () {
+
+            @if (session('user_info'))
+
+                $('#visitorForm').submit();
+            @else
+                $('#detailModal').modal('show');
+
+            @endif
+
+        });
+        $(document).on('click', '.save',function (e) {
+            if( $('#name').val() == '' ){
+                $('.name').show();
+                return false;
+            }
+
+            else if( $('#email').val() == '' ){
+                $('.email').show();
+                return false;
+            }
+            else if( $('#phone').val() == '' ){
+                $('.phone').show();
+                return false;
+            }
+            else{
+                $('#visitorForm').submit();
+            }
+
+
+        });
+    </script>
 @endsection

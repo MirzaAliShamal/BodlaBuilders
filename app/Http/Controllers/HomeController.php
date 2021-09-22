@@ -14,23 +14,92 @@ use App\Models\Blog;
 use App\Models\Vlog;
 use App\Models\News;
 use App\Models\Map;
+use App\Models\Jobs;
+use App\Models\Application;
+use App\Models\VisitorDetails;
+use Session;
 
 class HomeController extends Controller
 {
     public function home(Request $req)
     {
-        // dd('df');
+         //dd($req->all());
+        if( isset($req->sector) && isset($req->plot) && isset($req->name) ){
+            $property = DhaProperty::where('sector', $req->sector)->where('plot', $req->plot)->first();
+            $visitor = new VisitorDetails();
+            $visitor->logable_type = 'App/model/DhaProperty';
+            $visitor->logable_id = $property->id;
+            $visitor->name = $req->name;
+            $visitor->email = $req->email;
+            $visitor->phone = $req->phone;
+            $visitor->save();
+            if(!Session::has('user_info')){
+                $name = $visitor->name;
+                $email = $visitor->email;
+                $phone = $visitor->phone;
+                Session::put('user_info', [$name, $email, $phone ]);
+            }
+            return view('front.dha', get_defined_vars());
+        }
         if (isset($req->sector) && isset($req->plot)) {
 
             $property = DhaProperty::where('sector', $req->sector)->where('plot', $req->plot)->first();
+            if(Session::has('user_info')){
+                $visitor = new VisitorDetails();
+                $visitor->logable_type = 'App/model/DhaProperty';
+                $visitor->logable_id = $property->id;
+                $visitor->name = Session::get('user_info')[0];
+                $visitor->email = Session::get('user_info')[1];
+                $visitor->phone = Session::get('user_info')[2];
+                $visitor->save();
+            }
 
             return view('front.dha', get_defined_vars());
-        } else {
+        }
+        else {
             return view('front.home', get_defined_vars());
         }
 
     }
 
+    public function visitor(Request $req)
+    {
+        $name = $req->visitor_name;
+        $email = $req->visitor_email;
+        $phone = $req->visitor_phone;
+        Session::put('user_info', [$name, $email, $phone ]);
+        return redirect()->back();
+    }
+
+    public function jobs($slug = null)
+    {
+        if (is_null($slug)) {
+            $job = Jobs::where('status', 1)->paginate(16);
+
+            return view('front.job', get_defined_vars());
+        } else {
+            $job = Jobs::where('slug', $slug)->first();
+
+            return view('front.job_details', get_defined_vars());
+        }
+        return view();
+    }
+
+    public function apply()
+    {
+        return view('front.application_form', get_defined_vars());
+    }
+
+    public function application(Request $req)
+    {
+        $job = new Application;
+        $job->name = $req->name;
+        $job->email = $req->email;
+        $job->contact = $req->contact;
+        $job->cv = uploadFile($req->cv, 'uploads/cv');
+        $job->save();
+        return redirect()->route('home');
+    }
     public function news($slug = null)
     {
         if (is_null($slug)) {
@@ -90,7 +159,39 @@ class HomeController extends Controller
 
     public function calculator(Request $req)
     {
-        return view('front.calculator', get_defined_vars());
+        //dd($req->all());
+        // if($req->ajax){
+            if(Session::has('user_info')){
+                if($req->project){
+
+                    $visitor = new VisitorDetails();
+                    $visitor->logable_type = 'App/model/Project';
+                    $visitor->logable_id = $req->project;
+                    $visitor->name = Session::get('user_info')[0];
+                    $visitor->email = Session::get('user_info')[1];
+                    $visitor->phone = Session::get('user_info')[2];
+                    $visitor->save();
+                }
+            }
+            elseif( isset($req->project) && isset($req->name) ){
+                $visitor = new VisitorDetails();
+                $visitor->logable_type = 'App/model/Project';
+                $visitor->logable_id = $req->project;
+                $visitor->name = $req->name;
+                $visitor->email = $req->email;
+                $visitor->phone = $req->phone;
+                $visitor->save();
+                if(!Session::has('user_info')){
+                    $project = $visitor->logable_id;
+                    $name = $visitor->name;
+                    $email = $visitor->email;
+                    $phone = $visitor->phone;
+                    Session::put('user_info', [$name, $email, $phone, $project ]);
+                }
+            }
+            return view('front.calculator', get_defined_vars());
+
+
     }
 
     public function contact()

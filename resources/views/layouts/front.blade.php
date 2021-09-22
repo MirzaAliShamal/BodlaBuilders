@@ -244,6 +244,56 @@
         </div>
         <!-- Account Modal -->
 
+        <div class="modal fade" id="userMoodal" tabindex="-1" style="margin-top: 80px" role="dialog" aria-labelledby="userMoodalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <form action="{{ route('visitor.details.save') }}" class="visitor" method="GET" id="visitorMainForm">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailModalLabel">User Detail</h5>
+                                <span aria-hidden="true" class="close sess" style="cursor: pointer"  data-bs-dismiss="modal" aria-label="Close">&times;</span>
+                        </div>
+                        <div class="modal-body blog-details">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="visitor_name"> Name *</label>
+                                        <input type="text" class="form-control @error('visitor_name') is-invalid @enderror" id="visitor_name" name="visitor_name" >
+                                        <span class="visitor_name" style="display: none">
+                                            <strong class="text-danger">Name field is required</strong>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="visitor_email"> Email *</label>
+                                        <input type="visitor_email" class="form-control @error('visitor_email') is-invalid @enderror" id="visitor_email" name="visitor_email" >
+                                        <span class="visitor_email"  style="display: none">
+                                            <strong class="text-danger">Email field is required</strong>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="visitor_phone"> Phone *</label>
+                                        <input type="number" class="form-control @error('visitor_phone') is-invalid @enderror" id="visitor_phone" name="visitor_phone" >
+                                        <span class="visitor_phone"  style="display: none">
+                                            <strong class="text-danger">Phone field is required</strong>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"  data-bs-dismiss="modal"  class="btn btn-secondary sess">Skip</button>
+                            <button type="submit"  class="btn btn-primary visitorSave">Save changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <form id="logout-form" class="d-none" method="post" action="{{ route('logout') }}">@csrf</form>
         <!-- javascript -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -281,6 +331,37 @@
                     }
                 });
             }
+            $(document).on('click', '.visitorSave',function (e) {
+                if( $('#visitor_name').val() == '' ){
+                    $('.visitor_name').show();
+                    return false;
+                }
+
+                else if( $('#visitor_email').val() == '' ){
+                    $('.visitor_email').show();
+                    return false;
+                }
+                else if( $('#visitor_phone').val() == '' ){
+                    $('.visitor_phone').show();
+                    return false;
+                }
+                else{
+                    $('#visitorMainForm').submit();
+                }
+            });
+
+            $(document).ready(function () {
+                @if (!session('loaded'))
+                    setTimeout(function(){
+                        $('#userMoodal').modal('show');
+                        @php
+                            Session::put('loaded', 'loaded');
+
+                        @endphp
+                    },5000)
+                @endif
+            });
+
 
             $(".login-form").submit(function (e) {
                 e.preventDefault();

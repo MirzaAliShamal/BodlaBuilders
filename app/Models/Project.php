@@ -15,4 +15,9 @@ class Project extends Model
         'city',
         'description'
     ];
+
+    public function logable()
+    {
+        return $this->morphMany('App\Models\VisitorDetails', 'logable');
+    }
 }

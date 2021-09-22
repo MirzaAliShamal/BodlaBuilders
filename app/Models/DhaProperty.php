@@ -18,4 +18,9 @@ class DhaProperty extends Model
         'demand',
         'description',
     ];
+
+    public function logable()
+    {
+        return $this->morphMany('App\Models\VisitorDetails', 'logable');
+    }
 }
