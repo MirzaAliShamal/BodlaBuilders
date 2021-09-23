@@ -242,9 +242,83 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="userMoodal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog  modal-lg modal-dialog-centered">
+                <div class="modal-content rounded shadow border-0">
+                    <div class="modal-body p-0">
+                        <div class="container-fluid px-0">
+                            <div class="row align-items-center g-0">
+                                <div class="col-lg-6 col-md-5 text-center">
+                                    <img src="{{ asset('logo.png') }}" class="img-fluid" alt="">
+                                </div><!--end col-->
+
+                                <div class="col-lg-6 col-md-7">
+                                    <div id="status" class="loader" style="display: none;">
+                                        <div class="spinner">
+                                            <div class="double-bounce1"></div>
+                                            <div class="double-bounce2"></div>
+                                        </div>
+                                    </div>
+                                    <form action="{{ route('visitor.details.save') }}" class="visitor p-4" method="GET" id="visitorMainForm">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Name <span class="text-danger">*</span></label>
+                                                    <div class="form-icon position-relative">
+                                                        <i data-feather="user" class="fea icon-sm icons"></i>
+                                                        <input type="text" class="form-control ps-5" id="visitor_name" name="visitor_name" >
+                                                        <span class="visitor_name" style="display: none">
+                                                            <strong class="text-danger">Name field is required</strong>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!--end col-->
+
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                                                    <div class="form-icon position-relative">
+                                                        <i data-feather="mail" class="fea icon-sm icons"></i>
+                                                        <input type="visitor_email" class="form-control ps-5" id="visitor_email" name="visitor_email" >
+                                                        <span class="visitor_email"  style="display: none">
+                                                            <strong class="text-danger">Email field is required</strong>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!--end col-->
+
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Phone <span class="text-danger">*</span></label>
+                                                    <div class="form-icon position-relative">
+                                                        <i data-feather="phone" class="fea icon-sm icons"></i>
+                                                        <input type="number" class="form-control ps-5" id="visitor_phone" name="visitor_phone" >
+                                                        <span class="visitor_phone"  style="display: none">
+                                                            <strong class="text-danger">Phone field is required</strong>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!--end col-->
+
+                                            <div class="col-lg-12 mb-0">
+                                                <div>
+                                                    <button type="button"  data-bs-dismiss="modal"  class="btn btn-secondary sess">Skip</button>
+                                                    <button type="submit"  class="btn btn-primary visitorSave">Save changes</button>
+                                                </div>
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </form>
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </div><!--end container-->
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Account Modal -->
 
-        <div class="modal fade" id="userMoodal" tabindex="-1" style="margin-top: 80px" role="dialog" aria-labelledby="userMoodalLabel" aria-hidden="true">
+        {{-- <div class="modal fade" id="userMoodal" tabindex="-1" style="margin-top: 80px" role="dialog" aria-labelledby="userMoodalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <form action="{{ route('visitor.details.save') }}" class="visitor" method="GET" id="visitorMainForm">
                     @csrf
@@ -292,7 +366,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> --}}
 
         <form id="logout-form" class="d-none" method="post" action="{{ route('logout') }}">@csrf</form>
         <!-- javascript -->

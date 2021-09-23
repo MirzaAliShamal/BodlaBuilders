@@ -6,7 +6,83 @@
     <!-- Hero Start -->
     <section class="d-table w-100" id="pages" style="background-image: url({{ asset('front/images/banner1.jpg') }});"></section><!--end section-->
     <!-- Hero End -->
-    <div class="modal fade" id="detailModal" tabindex="-1" style="margin-top: 80px" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog  modal-lg modal-dialog-centered">
+            <div class="modal-content rounded shadow border-0">
+                <div class="modal-body p-0">
+                    <div class="container-fluid px-0">
+                        <div class="row align-items-center g-0">
+                            <div class="col-lg-6 col-md-5 text-center">
+                                <img src="{{ asset('logo.png') }}" class="img-fluid" alt="">
+                            </div><!--end col-->
+
+                            <div class="col-lg-6 col-md-7">
+                                <div id="status" class="loader" style="display: none;">
+                                    <div class="spinner">
+                                        <div class="double-bounce1"></div>
+                                        <div class="double-bounce2"></div>
+                                    </div>
+                                </div>
+                                <form action="" class="visitor p-4" method="GET" id="visitorForm">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Name <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                                    <input type="text" class="form-control ps-5" id="name" name="name" >
+                                                    <span class="name" style="display: none">
+                                                        <strong class="text-danger">Name field is required</strong>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="mail" class="fea icon-sm icons"></i>
+                                                    <input type="email" class="form-control ps-5" id="email" name="email" >
+                                                    <span class="email"  style="display: none">
+                                                        <strong class="text-danger">Email field is required</strong>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Phone <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="phone" class="fea icon-sm icons"></i>
+                                                    <input type="number" class="form-control ps-5" id="phone" name="phone" >
+                                                    <span class="phone"  style="display: none">
+                                                        <strong class="text-danger">Phone field is required</strong>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-lg-12 mb-0">
+                                            <div>
+                                                <button type="button" onclick="calc()" data-bs-dismiss="modal"  class="btn btn-secondary">Skip</button>
+                                                <button type="button" data-bs-dismiss="modal" class="btn btn-primary save">Save changes</button>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end container-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- <div class="modal fade" id="detailModal" tabindex="-1" style="margin-top: 80px" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <form action="" class="visitor" method="GET" id="visitorForm">
                 @csrf
@@ -54,7 +130,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
     <section class="section">
         <div class="container">
             <div class="row justify-content-center">
