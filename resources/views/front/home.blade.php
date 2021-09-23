@@ -154,6 +154,10 @@
                 <div class="text-center">
                     <div class="card border-0 transparent-card">
                         <form class="card-body text-start" id="propertyForm" method="GET" action="">
+                            <div class="mb-3" style="margin-left: 160px; margin-top: -10px; display:none" id="searchDetails">
+                                <b class="text-danger" >Please Provide property Details to continue !</b>
+                            </div>
+
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="mb-sm-0 mb-3">
@@ -448,6 +452,11 @@
 @section('js')
     <script>
         $(document).on('click', '.prop',function () {
+
+            if( $('#plot').val() == '' || $('#sector').val() == '' ){
+                $('#searchDetails').show();
+                return false;
+            }
 
             @if (session('user_info'))
 
